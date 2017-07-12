@@ -1,5 +1,3 @@
-console.log("Pintor")
-
 const reduceColor = (color, percentage = 1) => parseInt(color * Math.max(Math.min(1,percentage), 0))
 
 const rgbColorStringToObject = (string) => {
