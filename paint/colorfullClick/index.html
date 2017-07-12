@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Colorfull Click</title>
+</head>
+<style>
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    #btn {
+        background-color: #F44336;
+        background-image: paint(colorfull-click);
+        --colorfull-click-animation-duration: 1000ms;
+        color: white;
+        border: none;
+        font-size: 4em;
+        font-weight: bold;
+        text-align: center;
+        height: 3em;
+        width: 3em;
+        line-height: 3em;
+        border-radius: 50%;
+        font-family: "Helvetica";
+    }
+
+</style>
+<body>
+    <button id="btn">
+        +
+    </button>
+
+    <script>
+        window.paintWorklet.addModule('paintWorklet.js')
+        const btn = document.querySelector("#btn")
+        btn.addEventListener("click", (event) => {
+            const x = event.clientX - btn.scrollLeft
+            const y = event.clientY - btn.scrollTop
+            const start = performance.now()
+            let rafID = requestAnimationFrame(function raf(now){
+                const delta = Math.floor(now - start)
+                btn.style.cssText=`--colorfull-click-x:${x}; --colorfull-click-y:${y}; --colorfull-click-animation-tick:${delta}`            
+                rafID = requestAnimationFrame(raf)
+            })
+        })
+    </script>
+</body>
+</html>
