@@ -54,25 +54,32 @@
             inherits: false,
             initialValue: '0s',
         });
-
+        
+        const colorObjectToRGBString = (colorObject) => `rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue})`
+        const reduceColor = (color, percentage = 1) => parseInt(color * Math.max(Math.min(1,percentage), 0))
+        const reduceWhite = (percentage = 1) => reduceColor(255, percentage)
         const msStringToInt = (string) => parseInt(string.replace(/ms$/, ""))
+
         const btn = document.querySelector("#btn")
         const btnStyles = window.getComputedStyle(btn)
+
         btn.addEventListener("click", (event) => {
-            // const x = event.clientX - btn.scrollLeft
-            // const y = event.clientY - btn.scrollTop
-            // const xPercentage = parseFloat(props.get('--colorfull-click-x').toString()) / geom.width
-            // const yPercentage = parseFloat(props.get('--colorfull-click-y').toString()) / geom.height
-            // const objectiveColor = {
-            //     red: reduceColor(255, xPercentage)
-            //     ,green: reduceColor(255, yPercentage)
-            //     ,blue: reduceColor(255, (xPercentage / yPercentage)%1)
-            // }
+            const x = event.clientX - btn.scrollLeft
+            const y = event.clientY - btn.scrollTop
+            const xPercentage = x / btn.clientWidth
+            const yPercentage = y / btn.clientHeight
+
+            const objectiveColor = colorObjectToRGBString({
+                red: reduceWhite(xPercentage)
+                ,green: reduceWhite(yPercentage)
+                ,blue: reduceWhite((xPercentage / yPercentage)%1)
+            })
+
             const start = performance.now()
             requestAnimationFrame(function raf(now){
                 const duration = msStringToInt(btnStyles.getPropertyValue("--colorfull-click-animation-duration"))
                 const delta = Math.floor(now - start)
-                btn.style.cssText=`--colorfull-click-animation-tick:${delta}`            
+                btn.style.cssText=`--colorfull-click-animation-tick:${delta}; --colorfull-click-color:${objectiveColor};`
                 if(delta > duration){
                     return
                 }

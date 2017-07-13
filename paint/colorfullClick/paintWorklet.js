@@ -7,7 +7,7 @@ const colorStringToObject = (string) => {
     return {red: parseInt(red), green: parseInt(green), blue: parseInt(blue)}
 }
 
-const objectToRGBString = (colorObject) => `rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue})`
+const colorObjectToRGBString = (colorObject) => `rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue})`
 
 const diffColors = (color1, color2) => ({
     red: parseInt(color2.red - color1.red)
@@ -36,7 +36,7 @@ registerPaint('colorfull-click', class {
             ,blue: bgColor.blue + reduceColor(colorDelta.blue, animationPercentage)
         }
 
-        ctx.fillStyle = objectToRGBString(currentColor)
+        ctx.fillStyle = colorObjectToRGBString(currentColor)
         ctx.fillRect(0, 0, geom.width, geom.height);
         ctx.fillRect(0, 0, geom.width, geom.height);
     }
