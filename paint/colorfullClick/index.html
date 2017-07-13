@@ -16,6 +16,8 @@
     #btn {
         background-color: #F44336;
         background-image: paint(colorfull-click);
+        --colorfull-click-color: #2222FF;
+        --colorfull-click-animation-tick: 0;
         --colorfull-click-animation-duration: 1000ms;
         color: white;
         border: none;
@@ -27,6 +29,7 @@
         line-height: 3em;
         border-radius: 50%;
         font-family: "Helvetica";
+        outline: none;
     }
 
 </style>
@@ -36,16 +39,31 @@
     </button>
 
     <script>
+        const msStringToInt = (string) => parseInt(string.replace(/ms$/, ""))
+
         window.paintWorklet.addModule('paintWorklet.js')
+
         const btn = document.querySelector("#btn")
+        const btnStyles = window.getComputedStyle(btn)
         btn.addEventListener("click", (event) => {
-            const x = event.clientX - btn.scrollLeft
-            const y = event.clientY - btn.scrollTop
+            // const x = event.clientX - btn.scrollLeft
+            // const y = event.clientY - btn.scrollTop
+            // const xPercentage = parseFloat(props.get('--colorfull-click-x').toString()) / geom.width
+            // const yPercentage = parseFloat(props.get('--colorfull-click-y').toString()) / geom.height
+            // const objectiveColor = {
+            //     red: reduceColor(255, xPercentage)
+            //     ,green: reduceColor(255, yPercentage)
+            //     ,blue: reduceColor(255, (xPercentage / yPercentage)%1)
+            // }
             const start = performance.now()
-            let rafID = requestAnimationFrame(function raf(now){
+            requestAnimationFrame(function raf(now){
+                const duration = msStringToInt(btnStyles.getPropertyValue("--colorfull-click-animation-duration"))
                 const delta = Math.floor(now - start)
-                btn.style.cssText=`--colorfull-click-x:${x}; --colorfull-click-y:${y}; --colorfull-click-animation-tick:${delta}`            
-                rafID = requestAnimationFrame(raf)
+                btn.style.cssText=`--colorfull-click-animation-tick:${delta}`            
+                if(delta > duration){
+                    return
+                }
+                requestAnimationFrame(raf)
             })
         })
     </script>
