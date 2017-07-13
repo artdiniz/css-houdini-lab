@@ -39,10 +39,16 @@
     </button>
 
     <script>
-        const msStringToInt = (string) => parseInt(string.replace(/ms$/, ""))
 
         window.paintWorklet.addModule('paintWorklet.js')
+        CSS.registerProperty({
+            name: "--colorfull-click-color",
+            syntax: '<color>',
+            inherits: false,
+            initialValue: 'currentColor',
+        });
 
+        const msStringToInt = (string) => parseInt(string.replace(/ms$/, ""))
         const btn = document.querySelector("#btn")
         const btnStyles = window.getComputedStyle(btn)
         btn.addEventListener("click", (event) => {

@@ -2,16 +2,9 @@ const reduceColor = (color, percentage = 1) => parseInt(color * Math.max(Math.mi
 
 const colorStringToObject = (string) => {
     string = string.toUpperCase()
-    const rgbColor = string.trim().match(/^rgb\(([1-2]*[1-9]*[1-9]+)\s*,\s*([1-2]*[1-9]*[1-9]+)\s*,\s*([1-2]*[1-9]*[1-9]+)\)$/i)
-    const hexaColor = string.trim().match(/^#([0-F]{2})([0-F]{2})([0-F]{2})$/i)
-    
-    const {1:red, 2:green, 3:blue} = rgbColor || hexaColor || [null, 255, 255, 255]
-
-    if(rgbColor){
-        return {red: parseInt(red), green: parseInt(green), blue: parseInt(blue)}
-    } else {
-       return  {red: parseInt(red, 16), green: parseInt(green, 16), blue: parseInt(blue, 16)}
-    }
+    const rgbColorAsArray = string.trim().match(/^rgb\(([1-2]*[1-9]*[1-9]+)\s*,\s*([1-2]*[1-9]*[1-9]+)\s*,\s*([1-2]*[1-9]*[1-9]+)\)$/i)
+    const {1:red, 2:green, 3:blue} = rgbColorAsArray || [null, 255, 255, 255]
+    return {red: parseInt(red), green: parseInt(green), blue: parseInt(blue)}
 }
 
 const objectToRGBString = (colorObject) => `rgb(${colorObject.red}, ${colorObject.green}, ${colorObject.blue})`
