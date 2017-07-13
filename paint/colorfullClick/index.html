@@ -48,6 +48,13 @@
             initialValue: 'currentColor',
         });
 
+        CSS.registerProperty({
+            name: "--colorfull-click-animation-duration",
+            syntax: '<time>',
+            inherits: false,
+            initialValue: '0s',
+        });
+
         const msStringToInt = (string) => parseInt(string.replace(/ms$/, ""))
         const btn = document.querySelector("#btn")
         const btnStyles = window.getComputedStyle(btn)
